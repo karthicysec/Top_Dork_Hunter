@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dork_Hunter - Advanced DNS Lookup Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .footer {
+            font-size: 1rem;
+            background-color: #1f4e79;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen flex items-center justify-center">
+    <div class="relative w-full max-w-lg p-8 bg-gray-900 rounded-lg shadow-2xl ring-2 ring-blue-500/30 hover:ring-blue-500/50 transition duration-300">
+        <!-- Background glow effect -->
+        <div class="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/30 via-transparent to-purple-600/30 blur-xl opacity-75 pointer-events-none"></div>
+
+        <!-- Title -->
+        <h1 class="text-4xl font-extrabold text-center text-blue-400 tracking-wide uppercase mb-8">
+            Dork_Hunter
+        </h1>
+
+        <!-- Form -->
+        <form method="POST" class="space-y-6 relative z-10">
+            <!-- Domain Input -->
+            <div>
+                <input type="text" name="domain" placeholder="Enter Domain Name (e.g., example.com)" required
+                    class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg shadow-inner focus:ring-4 focus:ring-blue-500/50 focus:outline-none">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="w-full py-3 text-lg font-semibold text-gray-900 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg shadow-lg hover:from-purple-500 hover:to-blue-400 hover:text-white transition duration-300 ease-in-out transform hover:scale-105">
+                Lookup
+            </button>
+        </form>
+
+        <!-- Results Section -->
+        {% if dns_records or domain_info or ip_info %}
+        <div class="mt-6 space-y-6">
+            <div class="results bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold text-blue-400">DNS Records:</h2>
+                <pre class="text-gray-300">{{ dns_records }}</pre>
+
+                <h2 class="text-xl font-semibold text-blue-400">Domain Info:</h2>
+                <pre class="text-gray-300">{{ domain_info }}</pre>
+
+                <h2 class="text-xl font-semibold text-blue-400">IP Info:</h2>
+                <pre class="text-gray-300">{{ ip_info }}</pre>
+            </div>
+        </div>
+        {% elif error %}
+        <div class="mt-6 space-y-6">
+            <div class="error bg-red-500 text-white p-6 rounded-lg">
+                <h2 class="text-xl font-semibold">Error:</h2>
+                <pre>{{ error }}</pre>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>Powered by <a href="https://www.linkedin.com/in/karthikeyancysec/" target="_blank" class="text-blue-400 hover:text-blue-500">Karthi (0FF3NDER_404)</a></p>
+    </div>
+</body>
+</html>

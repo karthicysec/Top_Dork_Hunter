@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Information</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            text-align: center;
+            color: #1f4e79;
+        }
+
+        /* Styling the tool name and animation */
+        .tool-name {
+            font-size: 2rem;
+            color: #4db8ff;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        /* Animation for glowing effect */
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5pxrgb(14, 90, 141), 0 0 10px #4db8ff, 0 0 15px #4db8ff, 0 0 20px #825aff, 0 0 30px #825aff;
+            }
+            100% {
+                text-shadow: 0 0 10pxrgb(86, 255, 77), 0 0 20px #4db8ff, 0 0 30px #4db8ff, 0 0 40px #825aff, 0 0 50px #825aff;
+            }
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #4285f4;
+            margin-top: 20px;
+            border-bottom: 2px solid #dce5f1;
+            padding-bottom: 8px;
+        }
+
+        .alert {
+            font-size: 1.3rem;
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #f5c6cb;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        table thead {
+            background-color: #1f4e79;
+            color: #ffffff;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #dde6f0;
+        }
+
+        table tbody tr:nth-child(odd) {
+            background-color: #f4f7fc;
+        }
+
+        table tbody tr:hover {
+            background-color: #e0efff;
+        }
+
+        ul.list-group {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.list-group li {
+            background-color: #ffffff;
+            border: 1px solid #f0f0f0;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        ul.list-group li:hover {
+            background-color: #f1f8ff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul.list-group a {
+            text-decoration: none;
+            color: #1e40af;
+        }
+
+        ul.list-group a:hover {
+            color: #102a6f;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #1f4e79;
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            margin-top: 25px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #4285f4;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            table, ul.list-group {
+                font-size: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 15px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tool Name Display -->
+        <div class="tool-name">Dork_Hunter - Advanced DNS Lookup Tool</div>
+
+        <h1>Domain Information for {{ domain }}</h1>
+
+        {% if error %}
+            <div class="alert">
+                <strong>Error:</strong> {{ error }}
+            </div>
+        {% else %}
+            <h3>DNS Records</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record Type</th>
+                        <th>Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record_type, values in dns_records.items() %}
+                        <tr>
+                            <td>{{ record_type }}</td>
+                            <td>{% if values %}{{ values | join(', ') }}{% else %}No records found{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3>IP Information</h3>
+            <ul class="list-group">
+                <li><strong>IP:</strong> {{ ip_info.IP }}</li>
+                <li><strong>Country:</strong> {{ ip_info.Country }}</li>
+                <li><strong>Region:</strong> {{ ip_info.Region }}</li>
+                <li><strong>City:</strong> {{ ip_info.City }}</li>
+                <li><strong>Provider:</strong> {{ ip_info.Provider }}</li>
+                <li><strong>Hostname:</strong> {{ ip_info.Hostname }}</li>
+            </ul>
+
+            <h3>Google Dork Links</h3>
+            {% for category, links in dork_links.items() %}
+                <h4>{{ category }}</h4>
+                <ul class="list-group">
+                    {% for link in links %}
+                        <li>
+                            <a href="{{ link }}" target="_blank">{{ link }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        {% endif %}
+
+        <div class="text-center">
+            <a href="/" class="btn">Check Another Domain</a>
+        </div>
+    </div>
+</body>
+</html>
