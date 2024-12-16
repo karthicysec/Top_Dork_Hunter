@@ -34,6 +34,25 @@
             color: #ffffff;
         }
     </style>
+    <script>
+        // Function to validate and normalize domain or URL input
+        function processInput(event) {
+            const inputField = document.getElementById('domainInput');
+            let userInput = inputField.value.trim();
+
+            try {
+                // Attempt to parse the input as a URL
+                const url = new URL(userInput);
+                inputField.value = url.hostname.replace(/^www\./, ''); // Extract and normalize domain
+            } catch (e) {
+                // If input is not a valid URL, treat it as a domain
+                if (!/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(userInput)) {
+                    alert("Please enter a valid domain name or URL.");
+                    event.preventDefault();
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen flex items-center justify-center">
     <div class="relative w-full max-w-lg p-8 bg-gray-900 rounded-lg shadow-2xl ring-2 ring-blue-500/30 hover:ring-blue-500/50 transition duration-300">
@@ -46,10 +65,10 @@
         </h1>
 
         <!-- Form -->
-        <form method="POST" class="space-y-6 relative z-10">
+        <form method="POST" class="space-y-6 relative z-10" onsubmit="processInput(event)">
             <!-- Domain Input -->
             <div>
-                <input type="text" name="domain" placeholder="Enter Domain Name (e.g., example.com)" required
+                <input type="text" name="domain" id="domainInput" placeholder="Enter Domain or URL (e.g., example.com or https://www.example.com)" required
                     class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg shadow-inner focus:ring-4 focus:ring-blue-500/50 focus:outline-none">
             </div>
 
